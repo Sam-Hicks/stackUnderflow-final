@@ -1,0 +1,25 @@
+<img class="pic" mat-image src="./../../assets/images/pic1.png" style="width:100px;height:100px;" class="center">
+
+<mat-card>
+    <mat-card-content>
+        Welcome to the homepage!
+        You're logged in!
+    </mat-card-content>
+
+    <div class="row" *ngIf="authService.userData as user">
+        <div class="col-md-12">
+            <img class="user-image" src="{{(user.photoURL) ? user.photoURL : '/assets/images/dummy-user.png'}}" alt="{{user.displayName}}">
+              <h2>Hello: <strong>{{(user.displayName) ? user.displayName : 'User'}}</strong></h2>
+              <p>User ID: <strong>{{user.uid}}</strong></p>
+              <p>Email: <strong>{{user.email}}</strong></p>
+              <p>Email Verified: <strong>{{user.emailVerified}}</strong></p>
+        </div>
+    </div>
+
+    <!-- Calling SignOut() Api from AuthService -->
+    <a class="nav-link" (click)="authService.SignOut()">
+        <i class="fas fa-sign-out-alt"></i>Log out
+    </a>
+      
+</mat-card>
+

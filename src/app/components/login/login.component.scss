@@ -1,0 +1,86 @@
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+mat-card {
+  max-width: 500px;
+  display:block;
+  justify-content: center;
+  margin: auto;
+}
+.example-small-box, .example-large-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.example-small-box {
+  height: 100px;
+  width: 100px;
+}
+
+.example-large-box {
+  height: 300px;
+  width: 300px;
+}
+
+mat-card-title.mat-card-title {
+  padding-top: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+h1 {
+  color: #797a7e;
+}
+
+.box {
+  display: flex;
+  align-items:center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.image {
+  width:100px;
+  height:100px;
+  vertical-align:middle
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: #797a7e !important;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: #797a7e !important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  background-color: #797a7e !important;
+}
