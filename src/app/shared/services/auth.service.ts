@@ -37,7 +37,7 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          window.location.href = 'https://renukaseepersad.github.io/Temp_stackUnderflow/index.html';
+          this.router.navigate(['home-page']);
         });
         this.SetUserData(result.user);
       }).catch((error) => {

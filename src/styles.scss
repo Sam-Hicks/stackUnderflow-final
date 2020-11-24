@@ -5,7 +5,7 @@
 
 
 h1 {
-    color: white;
+    color: #797a7e;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 250%;
     text-align:center;
@@ -30,6 +30,21 @@ h1 {
     
     color: #333;
     font-family: Cambria, Georgia;
+  }
+
+
+  .box {
+    display: flex;
+    align-items:center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  
+  .image {
+    width:100px;
+    height:100px;
+    vertical-align:middle
   }
   
   a {
@@ -139,6 +154,20 @@ h1 {
   
   .example-headers-align .mat-form-field + .mat-form-field {
   margin-left: 8px;
+  }
+
+  .box {
+    display: flex;
+    align-items:center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  
+  .image {
+    width:100px;
+    height:100px;
+    vertical-align:middle
   }
 
   .forgotPassword {
