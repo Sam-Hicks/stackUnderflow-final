@@ -27,6 +27,7 @@ import { AuthService } from "./shared/services/auth.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomMaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
+import { SurveyComponent } from './survey/survey.component';
 
 
 
@@ -37,7 +38,8 @@ import { FormsModule } from '@angular/forms';
     SignUpComponent,
     HomePageComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    SurveyComponent
   ],
   imports: [
     BrowserModule,

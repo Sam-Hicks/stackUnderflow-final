@@ -6,6 +6,7 @@ import { SignUpComponent } from '../../components/sign-up/sign-up.component';
 import { HomePageComponent } from '../../components/home-page/home-page.component';
 import { ForgotPasswordComponent } from '../../components/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from '../../components/verify-email/verify-email.component';
+import { SurveyComponent } from '../../components/survey/survey.component';
 
 import { AuthGuard } from "../../shared/guard/auth.guard";
 
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'register-user', component: SignUpComponent},
   { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'verify-email-address', component: VerifyEmailComponent }
+  { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'survey', component: SurveyComponent}
 ];
 
 @NgModule({
