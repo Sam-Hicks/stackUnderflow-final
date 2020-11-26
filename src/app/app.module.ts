@@ -14,6 +14,9 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { SurveyComponent } from './components/survey/survey.component';
+import { SettingsComponent } from './components/settings/settings.component';
+
 
 // Firebase services + enviorment module
 import { AngularFireModule } from "@angular/fire";
@@ -37,7 +40,9 @@ import { FormsModule } from '@angular/forms';
     SignUpComponent,
     HomePageComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    SurveyComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

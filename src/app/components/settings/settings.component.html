@@ -1,0 +1,167 @@
+<button mat-icon-button class="homeButton" mat-raised-button routerLink="/home-page" routerLinkActive="active"><mat-icon>home</mat-icon></button>
+
+<div class="box" style="width:450px">
+    <img class="image" src="assets/images/pic1.png"/>
+    <h1>{{title}}</h1>
+  </div>
+
+<div class="row">
+    <div class="column">
+    <mat-card class="matcard1">
+        <mat-card-title>Profile</mat-card-title>
+            <form>
+            <mat-list>
+                <mat-list-item>
+                    <mat-form-field>
+                    <mat-label>First Name </mat-label>
+                    <input matInput [disabled]="hiddenProf" #first value="">
+                </mat-form-field>
+                </mat-list-item>
+              <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Last Name</mat-label>
+                        <input matInput [disabled]="hiddenProf" #last value="">
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+              <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                    <mat-label>Username </mat-label>
+                    <input matInput #user [disabled]="hiddenProf" value="">
+                </mat-form-field>
+                </mat-list-item>
+             <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Password</mat-label>
+                        <input matInput #pass [disabled]="hiddenProf" [type]="hidePass ? 'password' : 'text'" value=""/>
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Date of Birth</mat-label>
+                        <input matInput [disabled]="hiddenProf" [matDatepicker]="picker" [value]="">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Email Address</mat-label>
+                        <input matInput #mail [disabled]="hiddenProf" value="">
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-button-toggle mat-icon-button *ngIf="hiddenProf" (click)="edit(first.value, last.value, user.value, pass.value, picker.value, mail.value)"><mat-icon>lock</mat-icon></mat-button-toggle>
+                <mat-button-toggle mat-icon-button *ngIf="!hiddenProf" (click)="edit(first.value, last.value, user.value, pass.value, picker.value, mail.value)"><mat-icon>lock_open</mat-icon></mat-button-toggle>
+            </mat-list>
+            </form>
+</mat-card>
+</div>
+<div class="column">
+<mat-card>
+        <mat-card-title>Preferences</mat-card-title>
+            <mat-list *ngIf="hidden">
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Languages you know</mat-label>
+                        <input matInput disabled value="{{languages}}">
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Experience you have</mat-label>
+                        <input matInput disabled value="{{experience}}">
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-form-field>
+                        <mat-label>Reason for Stack Underflow</mat-label>
+                        <input matInput disabled value="{{reason}}">
+                    </mat-form-field>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-button-toggle mat-icon-button (click)="editSurvey()"><mat-icon>lock</mat-icon></mat-button-toggle>
+            </mat-list>
+            <form>
+            <mat-list *ngIf="!hidden">
+                <mat-list-item>
+                    <mat-label>Languages you know: </mat-label>
+                    <mat-list>
+                        <input style="margin-left:10px" type="checkbox" value="C" #c>
+                        <mat-label for="c">C</mat-label>
+                        <input style="margin-left:10px" type="checkbox" #cShrp value="C#">
+                        <mat-label for="cShrp">C#</mat-label>
+                        <input style="margin-left:10px" type="checkbox" #cpp value="C++">
+                        <mat-label for="cpp">C++</mat-label>
+                        <input style="margin-left:10px" type="checkbox" #py value="Python">
+                        <mat-label for="py">Python</mat-label>
+                        <input style="margin-left:10px" type="checkbox" #java value="Java">
+                        <mat-label for="java">Java</mat-label>
+                    </mat-list>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-label>Experience you have: </mat-label>
+                    <mat-list>
+                        <input name="experience" style="margin-left:10px" type="radio" #zero value="0 years">
+                        <mat-label for="zero">0 years</mat-label>
+                        <input name="experience" style="margin-left:10px" type="radio" #zeroToTwo value="0 - 2 years">
+                        <mat-label for="zeroToTwo">0 - 2 years</mat-label>
+                        <input name="experience" style="margin-left:10px" type="radio" #twoToFour value="2 - 4 years"> 
+                        <mat-label for="twoToFour">2 - 4 years</mat-label>                    
+                        <input name="experience" style="margin-left:10px" type="radio" #fourPlus value="4+ years">
+                        <mat-label for="fourPlus">4+ years</mat-label>
+                    </mat-list>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-list-item>
+                    <mat-label>Why Stack Underflow?</mat-label>
+                    <mat-list>
+                        <input style="margin-left:10px" type="checkbox" value="For Class" #forClass>
+                        <mat-label for="forClass">For Class</mat-label>
+                        <input style="margin-left:10px" type="checkbox" value="For Work" #work>
+                        <mat-label for="work">For Work</mat-label>
+                        <input style="margin-left:10px" type="checkbox" value="Other" #other>
+                        <mat-label for="other">Other</mat-label>
+                    </mat-list>
+                </mat-list-item>
+                <p></p>
+                <mat-divider></mat-divider>
+                <p></p>
+                <mat-button-toggle mat-icon-button (click)="editSurvey(c.checked, c.value, cShrp.checked, cShrp.value, cpp.checked, 
+                cpp.value, py.checked, py.value, java.checked, java.value, zero.checked, zero.value, zeroToTwo.checked, 
+                zeroToTwo.value, twoToFour.checked, twoToFour.value, fourPlus.checked, fourPlus.value, forClass.checked, 
+                forClass.value, work.checked, work.value, other.checked, other.value)"><mat-icon>lock_open</mat-icon></mat-button-toggle>
+            </mat-list>
+        </form>
+</mat-card>
+</div>
+</div>

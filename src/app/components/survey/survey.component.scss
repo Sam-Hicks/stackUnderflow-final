@@ -1,0 +1,58 @@
+h1 {
+    color: #797a7e;
+}
+  
+.box {
+    display: flex;
+    align-items:center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+  
+.image {
+    width:100px;
+    height:100px;
+    vertical-align:middle
+}
+
+.mat-card {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+}
+
+.mat-raised-button {
+    margin-top: 15px;
+}
+
+.mat-card-header {
+    justify-content: center;
+}
+
+::ng-deep .mat-form-field-ripple {
+    background-color: #797a7e !important;
+  }
+  
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #797a7e!important;
+  }
+  
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #797a7e;
+  }
+  
+  ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+    border-color:#797a7e; 
+  }
+  
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle{
+    color:#797a7e;
+    background-color:#797a7e;
+  }
+  
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+      background-color:#797a7e;
+  }

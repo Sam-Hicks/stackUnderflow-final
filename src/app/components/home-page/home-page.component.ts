@@ -1,7 +1,6 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from "../../shared/services/auth.service";
-import { Router } from "@angular/router";
-
+import { Component, OnInit, Inject } from '@angular/core';
+import { DATASET } from '../../mock-data';
+import {MatDialog, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home-page',
@@ -10,11 +9,30 @@ import { Router } from "@angular/router";
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(    
-    public authService: AuthService,
-    public router: Router,
-    public ngZone: NgZone) { }
+  showFiller = false;
+  dataset = DATASET;
+ 
 
-  ngOnInit() { }
+  constructor(public dialog: MatDialog) { }
 
+  ngOnInit(): void {
+  }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.autoFocus = true;
+
+        this.dialog.open(DialogBox, dialogConfig);
+  }
+
+}
+
+@Component({
+  selector: 'dialog-box',
+  templateUrl: 'dialog-box.html'
+})
+export class DialogBox {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: HomePageComponent) {}
 }

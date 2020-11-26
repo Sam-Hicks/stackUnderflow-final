@@ -18,3 +18,10 @@
     color: rgba(0,0,0,.87);
     background-color: #d8d3cd;
   }
+
+  mat-card {
+    max-width: 500px;
+    display:block;
+    justify-content: center;
+    margin: auto;
+  }
