@@ -1,0 +1,67 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+.title {
+    margin-left: 5px;
+}
+
+.mat-card-content {
+    margin-top: 15px;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: #797a7e !important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  background-color: #797a7e !important;
+}
+
+.postTitle {
+  background-color: #d8d3cd;
+  margin-bottom: 8px;
+  justify-content: center;
+  text-align: center;
+}
+.mat-card {
+    background-color: #d8d3cd;
+    margin: 15px;
+  }
+
+  .postContent {
+    font-size: medium;
+  }
+
+  .mat-dialog-container {
+    width: 250px;
+    height: 250px;
+    display: flex;
+  }
+
+  .mat-dialog-content {
+    height: 100%;
+    margin-top: 100px;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .mat-form-field {
+    width: 250px;
+    height: 100px;
+  }
+
+  .mat-raised-button {
+    margin-bottom: 15px;
+  }
+
+  .example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }

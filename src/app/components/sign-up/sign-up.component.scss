@@ -1,0 +1,27 @@
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background: #797a7e !important;
+  }
+  
+  ::ng-deep .mat-focused .mat-form-field-label {
+    color: #797a7e !important;
+  }
+  
+  ::ng-deep .mat-form-field-ripple {
+    background-color: #797a7e !important;
+  }
+
+  button:hover {
+    background-color: #797a7e;
+  }
+  
+  .mat-flat-button, .mat-raised-button, .mat-fab, .mat-mini-fab {
+    color: rgba(0,0,0,.87);
+    background-color: #d8d3cd;
+  }
+
+  mat-card {
+    max-width: 500px;
+    display:block;
+    justify-content: center;
+    margin: auto;
+  }

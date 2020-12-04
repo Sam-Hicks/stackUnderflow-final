@@ -1,0 +1,75 @@
+<div class="box" style="width:450px">
+    <img class="image" src="assets/images/pic1.png"/>
+    <h1>Stack Underflow</h1>
+  </div>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Tell us about yourself!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form *ngIf="auth.user$ | async as user">
+            <mat-list>
+                <mat-label>Personal Information:</mat-label><br>
+                <mat-form-field>
+                    <mat-label>Display Name</mat-label>
+                    <input matInput type="displayName" #displayName>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" #DoB [value]="">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-label>Age</mat-label>
+                    <input matInput type="age" #age>
+                </mat-form-field>
+            </mat-list>
+            <p></p>
+            <mat-divider></mat-divider>
+            <p></p>
+            <mat-list>
+                <mat-label>Languages you know:</mat-label>
+                <mat-list-item *ngFor="let language of lauguagesData">
+                <mat-checkbox class="radio-button"  (change)="onChangeEventFunc(language.name, $event)">
+                    {{language.name}}
+                </mat-checkbox>
+                </mat-list-item>
+            </mat-list>
+            <p></p>
+            <mat-divider></mat-divider>
+            <p></p>
+            <mat-list>
+            <mat-label>Experience you have:</mat-label>
+            <mat-radio-group
+                class="radio-group"
+                [(ngModel)]="selectedExperience"
+                [formControl]="experienceControl">
+                <mat-list-item>
+                <mat-radio-button class="radio-button" *ngFor="let experience of experiences" [value]="experience">
+                 {{ experience }}
+                </mat-radio-button>
+                </mat-list-item>
+            </mat-radio-group>
+            </mat-list>
+            <p></p>
+            <mat-divider></mat-divider>
+            <p></p>
+            <mat-list>
+                <mat-label>Why Stack Underflow?</mat-label>
+                <mat-list-item *ngFor="let reason of reasonsData">
+                <mat-checkbox class="radio-button"  (change)="onChangeEventFunc1(reason.name, $event)">
+                    {{reason.name}}
+                </mat-checkbox>
+                </mat-list-item>
+            </mat-list>
+            <p></p>
+            <mat-divider></mat-divider>
+            <p></p>
+            <button mat-raised-button routerLink="/home-page" routerLinkActive="active" 
+                (click)="auth.Survey(user.uid, displayName.value, DoB.value, age.value, selectedExperience, form.value, form1.value)">Submit</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+

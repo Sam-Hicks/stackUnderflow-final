@@ -1,0 +1,41 @@
+<div *ngIf="auth.user$ | async as user">
+<h2 mat-dialog-title>New Post</h2>
+<div mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Title your post"#title/>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-label>Start typing your post content</mat-label>
+        <textarea matInput #content></textarea>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+        <mat-chip-list #chipList aria-label="Language Selection">
+            <mat-chip *ngFor="let language of languages"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(language)">
+            {{language}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+        placeholder="Select Languages"
+        #languageInput
+        [formControl]="languageCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+        (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let language of filteredLanguages | async" [value]="language">
+                {{language}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button mat-dialog-close (click)="auth.addPost(title.value, content.value, user.uid, user.displayName)">Post</button>
+</div>
+</div>

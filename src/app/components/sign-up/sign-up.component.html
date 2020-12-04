@@ -1,0 +1,34 @@
+<div class="box" style="width:450px">
+  <img class="image" src="assets/images/pic1.png"/>
+  <h1>Stack Underflow</h1>
+</div>
+
+<mat-card class="example-card">
+  <div class="parent">
+    <mat-card-header>
+      <mat-card-title>Create an Account</mat-card-title>
+    </mat-card-header>
+      <form>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput type="email" placeholder="Email Address" #userEmail required>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" placeholder="Password" #userPwd required>
+            </mat-form-field>
+
+            <!-- #docregion action-bar -->
+            <mat-action-row>
+              <button mat-button color="primary" type="button" value="Submit" (click)="auth.SignUp(userEmail.value, userPwd.value)">Submit</button>
+            </mat-action-row>
+            <!-- #enddocregion action-bar -->
+          
+          
+        </form> 
+      <div class="redirectToLogin">
+        <span>Already have an account? <span class="redirect" routerLink="/login">Log In</span></span>
+      </div>
+  </div>
+</mat-card>

@@ -1,0 +1,58 @@
+<div class="box" style="width:450px">
+  <img class="image" src="assets/images/pic1.png"/>
+  <h1>Stack Underflow</h1>
+</div>
+
+<mat-card class="example-card">
+      <div class="parent">
+
+        <mat-card-header>
+          <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="example-form">
+            <table class="example-full-width" cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Username" #userName required>
+                  </mat-form-field>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="Password" placeholder="Password" #userPassword required>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Calling SignIn Api from AuthService -->
+          <mat-card-actions>
+            <input type="button" class="login-btn" value="Log in" (click)="auth.SignIn(userName.value, userPassword.value)">
+            <span class="or"><span class="orInner">Or</span></span>
+          </mat-card-actions>
+
+          <!-- Calling GoogleAuth Api from AuthService -->
+          <div>
+            <button type="button" class="google-login-btn" (click)="auth.GoogleAuth()"><i class="fab fa-google-plus-g"></i> Log in with Google</button>
+          </div>
+
+          <!-- Calling ForgotPassword -->
+          <div class="forgotPassword">
+            <br>
+            <span routerLink="/forgot-password">Forgot Password?</span>
+          </div>
+
+          <!-- Calling redirect to sign up page -->
+          <div class="redirectToLogin">
+            <span>Don't have an account? <span class="redirect" routerLink="/register-user">Sign Up</span></span>
+          </div>
+
+        </mat-card-content>
+      </div>
+</mat-card>
