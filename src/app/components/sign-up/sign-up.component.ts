@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class SignUpComponent implements OnInit {
 
   constructor(
-    public authService: AuthService
+    public auth: AuthService
   ) { }
 
   step = 0;

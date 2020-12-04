@@ -19,8 +19,8 @@ const routes: Routes = [
   { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'verify-email-address', component: VerifyEmailComponent },
-  { path: 'survey', component: SurveyComponent},
-  { path: 'settings', component: SettingsComponent},
+  { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard]},
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
 
 ];
 

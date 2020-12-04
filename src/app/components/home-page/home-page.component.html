@@ -1,20 +1,28 @@
-
+<!-- <div *ngIf="authService.userData as user">
     <mat-toolbar>
         <button mat-icon-button matTooltip="Menu" (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
         </button>
+
         <span class="title">Stack Underflow Dashboard</span>
         <span class="example-spacer"></span>
         <router-outlet></router-outlet>
+
+        <div class="showsurvey" >
+            <span><span class="redirect" routerLink="/survey">Fill out this survey</span></span>
+          </div>
+
         <button mat-icon-button matTooltip="Settings" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
-        routerLink="/settings" routerLinkActive="active">
+            routerLink="/settings" routerLinkActive="active">
         <mat-icon>settings</mat-icon>
         </button>
+
         <button mat-icon-button matTooltip="Log Out" class="example-icon" aria-label="Example icon-button with share icon"
-        routerLink="/login" routerLinkActive="active">
+            (click)="authService.SignOut()" routerLinkActive="active">
         <mat-icon>exit_to_app</mat-icon>
         </button>
     </mat-toolbar>
+
     <mat-drawer-container autosize>
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
@@ -45,5 +53,72 @@
     </mat-accordian>
         </mat-card-actions>
     </mat-card>
-  
-</mat-drawer-container>
+    </mat-drawer-container>
+</div> -->
+<div *ngIf="auth.user$ | async as user">
+<mat-toolbar>
+    <button mat-icon-button matTooltip="Menu" (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+    </button>
+    <span class="title">Stack Underflow Dashboard</span>
+    <span class="example-spacer"></span>
+    <div class="greeting">Welcome, {{user.displayName}}!</div>
+    <router-outlet></router-outlet>
+    <button mat-icon-button matTooltip="New Post" (click)="newPost()">
+        <mat-icon>post_add</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Settings" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+    routerLink="/settings" routerLinkActive="active">
+    <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Log Out" class="example-icon" aria-label="Example icon-button with share icon"
+    (click)="auth.SignOut()" routerLinkActive="active">
+    <mat-icon>exit_to_app</mat-icon>
+    </button>
+</mat-toolbar>
+<mat-drawer-container autosize>
+<mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-nav-list>
+        <!-- <a mat-list-item routerLink="." *ngFor="let data of dataset">{{data.tabs}}</a> -->
+      </mat-nav-list>
+</mat-drawer>
+
+
+
+<mat-card *ngFor="let post of posts | async">
+    <mat-card-header class="postTitle">
+        <mat-card-title >{{post.data.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="postContent">{{post.data.content}}</mat-card-content>
+    <mat-card-content >{{post.data.displayName}}</mat-card-content>
+    <mat-card-content >{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</mat-card-content>
+    <mat-divider></mat-divider>
+    
+    <mat-card-actions>
+        <mat-accordian>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>View Comments</mat-panel-title>
+                <mat-panel-desription>
+                    <mat-icon>comment</mat-icon>
+                </mat-panel-desription>
+            </mat-expansion-panel-header>
+            <div *ngFor="let comment of postComment">
+                {{comment}}
+            </div>
+            <mat-action-row>
+                <form class="comment">
+                    <mat-form-field>
+                        <mat-label>Comment</mat-label>
+                        <input matInput name="something" placeholder="Start typing your comment" #comment/>
+                    </mat-form-field>
+                </form>
+                <button mat-icon-button matTooltip="Add Comment" (click)="auth.addComment(comment.value, user.uid, user.displayName, post.data.id)"><mat-icon>add_comment</mat-icon></button>
+            </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordian>
+    </mat-card-actions>
+</mat-card> 
+ </mat-drawer-container>  
+</div>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-settings',
@@ -8,23 +10,23 @@ import { LoginComponent } from '../login/login.component';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(
+    public auth: AuthService,
+    public router: Router,
+    public ngZone: NgZone
+  ) { }
 
   ngOnInit(): void {
+    
   }
+
+
+
+
   hidePass = true;
   hidden: boolean = true;
   hiddenProf: boolean = true;
-  // firstName = this.loginComponent.firstName;
-  // lastName = this.loginComponent.lastName;
-  // DOB = this.loginComponent.DOB;
-  // email = this.loginComponent.email;
-  // username = this.loginComponent.username;
-  // password = this.loginComponent.password;
-  // languages = this.loginComponent.languages;
-  // experience = this.loginComponent.experience;
-  // reason = this.loginComponent.reason;
-  title = 'Settings';
 
   editSurvey(cChecked: boolean, c: string, cShrpChecked: boolean, cShrp: string, cppChecked: boolean, 
     cpp: string, pyChecked: boolean, py: string, javaChecked: boolean, java: string, zeroSelected: boolean, 
@@ -67,17 +69,18 @@ export class SettingsComponent implements OnInit {
   }
 
 
-  edit(first: string, last: string, user: string, pass: string, picker: Date, mail: string) {
+  edit(user: string, pass: string, picker: Date, mail: string) {
     // if (this.hiddenProf === false) {
-    //   this.firstName = first;
-    //   this.lastName = last;
-    //   this.username = user;
-    //   this.password = pass;
-    //   this.email = mail;
+      // this.user.firstName = first;
+      // this.lastName = last;
+    //   this.user.username = user;
+    //   this.user.password = pass;
+    //   this.user.email = mail;
     //   this.hidePass = true;
     //   this.hiddenProf = true;
     // } else {
     //   this.hidePass = false;
     //   this.hiddenProf = false;
-    }
+    // }}
+  }
   }

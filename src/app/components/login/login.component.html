@@ -33,13 +33,13 @@
 
           <!-- Calling SignIn Api from AuthService -->
           <mat-card-actions>
-            <input type="button" class="login-btn" value="Log in" (click)="authService.SignIn(userName.value, userPassword.value)">
+            <input type="button" class="login-btn" value="Log in" (click)="auth.SignIn(userName.value, userPassword.value)">
             <span class="or"><span class="orInner">Or</span></span>
           </mat-card-actions>
 
           <!-- Calling GoogleAuth Api from AuthService -->
           <div>
-            <button type="button" class="google-login-btn" (click)="authService.GoogleAuth()"><i class="fab fa-google-plus-g"></i> Log in with Google</button>
+            <button type="button" class="google-login-btn" (click)="auth.GoogleAuth()"><i class="fab fa-google-plus-g"></i> Log in with Google</button>
           </div>
 
           <!-- Calling ForgotPassword -->

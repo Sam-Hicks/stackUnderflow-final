@@ -11,7 +11,7 @@ import { AppRoutingModule } from './shared/routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
+import { HomePageComponent, DialogBox } from './components/home-page/home-page.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { SurveyComponent } from './components/survey/survey.component';
@@ -42,7 +42,8 @@ import { FormsModule } from '@angular/forms';
     ForgotPasswordComponent,
     VerifyEmailComponent,
     SurveyComponent,
-    SettingsComponent
+    SettingsComponent,
+    DialogBox
   ],
   imports: [
     BrowserModule,

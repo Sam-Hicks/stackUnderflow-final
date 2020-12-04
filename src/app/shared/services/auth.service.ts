@@ -1,16 +1,21 @@
 import { Injectable, NgZone } from '@angular/core';
 import { User } from "../services/user";
-import { auth } from 'firebase/app';
+import { auth, firestore } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-  userData: any; // Save logged in user data
+  user$: Observable<User>;
+  title: string;
+  content: string;
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
@@ -18,18 +23,17 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone // NgZone service to remove outside scope warning
   ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-      }
-    })
+    this.user$ = this.afAuth.authState.pipe(
+      switchMap(user => {
+          // Logged in
+        if (user) {
+          return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+        } else {
+          // Logged out
+          return of(null);
+        }
+      })
+    )
   }
 
   // Sign in with email/password
@@ -37,7 +41,12 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['home-page']);
+          if (result.additionalUserInfo.isNewUser == true){
+            console.log(result.additionalUserInfo.isNewUser);
+            this.router.navigate(['survey']);
+          } else {
+            this.router.navigate(['home-page']);
+          }
         });
         this.SetUserData(result.user);
       }).catch((error) => {
@@ -51,6 +60,7 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
+        console.log(result.additionalUserInfo.isNewUser);
         this.SendVerificationMail();
         this.SetUserData(result.user);
       }).catch((error) => {
@@ -77,25 +87,24 @@ export class AuthService {
     })
   }
 
-  // Returns true when user is looged in and email is verified
-  get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false) ? true : false;
-  }
 
-  // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return this.AuthLogin(provider);
   }
 
-  // Auth logic to run auth providers
-  AuthLogin(provider) {
+  private AuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
-    .then((result) => {
-       this.ngZone.run(() => {
+    .then((credential) => {
+      this.ngZone.run(() => {
+        if (credential.additionalUserInfo.isNewUser == true){
+          console.log(credential.additionalUserInfo.isNewUser);
+          this.router.navigate(['survey']);
+        } else {
           this.router.navigate(['home-page']);
-        })
-      this.SetUserData(result.user);
+        }
+      })
+      this.SetUserData(credential.user);
     }).catch((error) => {
       window.alert(error)
     })
@@ -104,26 +113,83 @@ export class AuthService {
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user) {
+  private SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified,
+      roles: {
+        editor: true
+      }
+ 
     }
-    return userRef.set(userData, {
-      merge: true
-    })
+  return userRef.set(userData, {merge: true})
   }
 
   // Sign out
-  SignOut() {
-    return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      this.router.navigate(['login']);
-    })
+  async SignOut() {
+    await this.afAuth.signOut();
+    this.router.navigate(['login']);
+  }
+  Survey(uid, displayName, DoB, age, experience, languages, reasons){
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+    return userRef.update({displayName, DoB, age, experience, languages, reasons}); 
   }
 
+  SettingsProfileSave(uid, displayName, DoB, age, email){
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+    return userRef.update({displayName, DoB, age, email}); 
+  }
+
+  SettingsPrefSave(uid, languages, experience, reason){
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+    return userRef.update({languages, experience, reason}); 
+  }
+
+  addPost(title, content, uid, displayName) {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    this.afs.collection('posts/').add({'title': title, 'content': content, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
+  }
+
+  addComment(content, uid, displayName, postId) {
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    console.log(postId);
+    this.afs.collection('posts/').doc(postId).collection('comments').add({'content': content, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
+  }
+
+  deletePost(postId) {
+    this.afs.doc('posts/'+postId).delete();
+  }
+
+
+  ///// Role-based Authorization //////
+
+  canRead(user: User): boolean {
+    const allowed = ['admin', 'editor', 'subscriber']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  canEdit(user: User): boolean {
+    const allowed = ['admin', 'editor']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  canDelete(user: User): boolean {
+    const allowed = ['admin']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  // determines if user has matching role
+  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+    if (!user) return false
+    for (const role of allowedRoles) {
+      if ( user.roles[role] ) {
+        return true
+      }
+    }
+    return false
+  }
+  
 }

@@ -281,10 +281,11 @@ h1 {
 .user-image {
   width: 70px;
   height: 70px;
-  display: inline-block;
   border-radius: 50%;
+  float: right;
   vertical-align: middle;
-  margin-right: 7px;
+  margin-right: 10px;
+  margin-top: -10px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 0 0;
