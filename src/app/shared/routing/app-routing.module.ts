@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'register-user', component: SignUpComponent},
   { path: 'home-page', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'verify-email-address', component: VerifyEmailComponent },
+  { path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [AuthGuard]   },
   { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard]},
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
 

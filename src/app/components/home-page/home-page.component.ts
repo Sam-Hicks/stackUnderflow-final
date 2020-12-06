@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, NgZone, Input } from '@angular/core';
+import { Component, OnInit, Inject, NgZone, Input, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AuthService } from "../../shared/services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -8,8 +8,13 @@ import { Observable, Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/shared/services/user';
 import { Post } from 'src/app/shared/services/posts';
-import { map } from 'rxjs/operators';
+import { map, startWith, filter } from 'rxjs/operators';
 import * as firebase from 'firebase';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { FormControl } from '@angular/forms';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+
 
 
 @Component({
@@ -31,7 +36,7 @@ export class HomePageComponent implements OnInit  {
   post: Observable<Post>;
 
   
-  
+  dataset = ['All Threads', 'C Threads', 'C# Threads', 'C++ Threads', 'Python Threads', 'Java Threads'];
 
   constructor(
     private afs: AngularFirestore,
@@ -58,16 +63,91 @@ export class HomePageComponent implements OnInit  {
     }))
   }
 
-  // addPostId(id){
+ 
 
-  // }
+  getAllPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
 
+  getCPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.where("tags", "array-contains", "C").orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
+
+  getCPlusPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.where("tags", "array-contains", "C++").orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
+  getCSharpPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.where("tags", "array-contains", "C#").orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
+
+  getPythonPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.where("tags", "array-contains", "Python").orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
+
+  getJavaPosts(){
+    this.postsCol = this.afs.collection('posts', ref => ref.where("tags", "array-contains", "Java").orderBy("createdDate", "desc"));
+    this.posts = this.postsCol.snapshotChanges()
+    .pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Post;
+        const id = a.payload.doc.id;
+        // this.addPostId(id);
+        return { id, data };
+      })
+    }))
+  }
 
   newPost() {
-     const dialogConfig = new MatDialogConfig();
-      dialogConfig.autoFocus = true;
-      this.dialog.open(DialogBox, dialogConfig);
-   }
+    const dialogConfig = new MatDialogConfig();
+     dialogConfig.autoFocus = true;
+     this.dialog.open(DialogBox, dialogConfig);
+  }
+   
 
 
 
@@ -78,11 +158,61 @@ export class HomePageComponent implements OnInit  {
   templateUrl: 'dialog-box.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class DialogBox extends HomePageComponent {
+export class DialogBox {
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeyCodes: number[] = [ENTER, COMMA];
+  languageCtrl = new FormControl();
+  filteredLanguages: Observable<string[]>;
+  languages: string[] = [];
+  allLanguages: string[] = ['C', 'C#', 'C++', 'Python', 'Java'];
 
- 
+  @ViewChild('languageInput') languageInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  addPost(pos: string) {
-    this.dialog.closeAll();
+  constructor(public auth: AuthService) {
+    
+    this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
+      startWith(null),
+      map((language: string | null) => language ? this._filter(language) : this.allLanguages.slice()));
   }
+ 
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our language
+    if ((value || '').trim()) {
+      this.languages.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.languageCtrl.setValue(null);
+  }
+
+  remove(language: string): void {
+    const index = this.languages.indexOf(language);
+
+    if (index >= 0) {
+      this.languages.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.languages.push(event.option.viewValue);
+    this.languageInput.nativeElement.value = '';
+    this.languageCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allLanguages.filter(language => language.toLowerCase().indexOf(filterValue) === 0);
+  }
+
 }

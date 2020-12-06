@@ -41,12 +41,7 @@ export class AuthService {
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
-          if (result.additionalUserInfo.isNewUser == true){
-            console.log(result.additionalUserInfo.isNewUser);
-            this.router.navigate(['survey']);
-          } else {
             this.router.navigate(['home-page']);
-          }
         });
         this.SetUserData(result.user);
       }).catch((error) => {
@@ -60,7 +55,6 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
-        console.log(result.additionalUserInfo.isNewUser);
         this.SendVerificationMail();
         this.SetUserData(result.user);
       }).catch((error) => {
@@ -87,7 +81,7 @@ export class AuthService {
     })
   }
 
-
+  //Google Login
   GoogleAuth() {
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.AuthLogin(provider);
@@ -98,7 +92,6 @@ export class AuthService {
     .then((credential) => {
       this.ngZone.run(() => {
         if (credential.additionalUserInfo.isNewUser == true){
-          console.log(credential.additionalUserInfo.isNewUser);
           this.router.navigate(['survey']);
         } else {
           this.router.navigate(['home-page']);
@@ -121,23 +114,30 @@ export class AuthService {
       email: user.email,
       emailVerified: user.emailVerified,
       roles: {
-        editor: true
+        guest: false,
+        editor: true,
+        admin: false
+        
       }
  
     }
   return userRef.set(userData, {merge: true})
   }
 
+  
   // Sign out
   async SignOut() {
     await this.afAuth.signOut();
     this.router.navigate(['login']);
   }
+
+  //Survey update function
   Survey(uid, displayName, DoB, age, experience, languages, reasons){
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
     return userRef.update({displayName, DoB, age, experience, languages, reasons}); 
   }
 
+  //Profile Page saving
   SettingsProfileSave(uid, displayName, DoB, age, email){
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
     return userRef.update({displayName, DoB, age, email}); 
@@ -148,15 +148,10 @@ export class AuthService {
     return userRef.update({languages, experience, reason}); 
   }
 
-  addPost(title, content, uid, displayName) {
+  //Post creation
+  addPost(title, content, tags, uid, displayName) {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    this.afs.collection('posts/').add({'title': title, 'content': content, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
-  }
-
-  addComment(content, uid, displayName, postId) {
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    console.log(postId);
-    this.afs.collection('posts/').doc(postId).collection('comments').add({'content': content, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
+    this.afs.collection('posts/').add({'title': title, 'content': content, 'tags': tags, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
   }
 
   deletePost(postId) {
@@ -164,32 +159,33 @@ export class AuthService {
   }
 
 
+
   ///// Role-based Authorization //////
 
-  canRead(user: User): boolean {
-    const allowed = ['admin', 'editor', 'subscriber']
-    return this.checkAuthorization(user, allowed)
-  }
+  // canRead(user: User): boolean {
+  //   const allowed = ['admin', 'editor', 'guest']
+  //   return this.checkAuthorization(user, allowed)
+  // }
 
-  canEdit(user: User): boolean {
-    const allowed = ['admin', 'editor']
-    return this.checkAuthorization(user, allowed)
-  }
+  // canEdit(user: User): boolean {
+  //   const allowed = ['admin', 'editor']
+  //   return this.checkAuthorization(user, allowed)
+  // }
 
-  canDelete(user: User): boolean {
-    const allowed = ['admin']
-    return this.checkAuthorization(user, allowed)
-  }
+  // canDelete(user: User): boolean {
+  //   const allowed = ['admin']
+  //   return this.checkAuthorization(user, allowed)
+  // }
 
-  // determines if user has matching role
-  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
-    if (!user) return false
-    for (const role of allowedRoles) {
-      if ( user.roles[role] ) {
-        return true
-      }
-    }
-    return false
-  }
+  // // determines if user has matching role
+  // private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+  //   if (!user) return false
+  //   for (const role of allowedRoles) {
+  //     if ( user.roles[role] ) {
+  //       return true
+  //     }
+  //   }
+  //   return false
+  // }
   
 }

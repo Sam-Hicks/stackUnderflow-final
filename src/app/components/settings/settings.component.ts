@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'firebase';
 
+export interface Language {
+  id: number;
+  name: string;
+}
+
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -21,7 +27,13 @@ export class SettingsComponent implements OnInit {
     
   }
 
-
+  lauguagesData: Language[] = [
+    { id: 0, name: 'C' },
+    { id: 1, name: 'C++' },
+    { id: 2, name: 'C#' },
+    { id: 3, name: 'Python' },
+    { id: 4, name: 'Java' }
+  ];
 
 
   hidePass = true;

@@ -4,7 +4,7 @@
 </div>
 
 <mat-card class="example-card">
-  <div class="parent">
+  <div class="parent" *ngIf="auth.user$ | async as user">
 
     <mat-card-header>
       <mat-card-title>Thank You for Registering</mat-card-title>
@@ -12,11 +12,8 @@
 
     <mat-card-content class="text-center">
       <div class="example-form">
-
-        <div *ngIf="auth.user$ | async as user">
           <p class="text-center">We have sent a confirmation email to <strong>{{user.email}}</strong>.</p>
           <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
-        </div>
       </div>
 
       <!-- Calling ForgotPassword from AuthService Api -->
@@ -26,9 +23,12 @@
           Resend Verification Email
         </button>
 
+        
+
         <!-- Calling redirect to login up page -->
         <div class="redirectToLogin">
-          <span>Go back to <span class="redirect" routerLink="/login">Log In?</span></span>
+          <p>Next Step</p>
+          <span><span class="redirect" routerLink="/survey"><strong>Take our survey here!!</strong></span></span>
         </div>
 
       </mat-card-actions>

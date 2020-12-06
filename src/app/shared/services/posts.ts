@@ -2,6 +2,7 @@ export interface Post {
    postId: string;
    title: string;
    content: string;
+   tags: string[];
    displayName: string;
    createdDate: Date;
    uid: string;
