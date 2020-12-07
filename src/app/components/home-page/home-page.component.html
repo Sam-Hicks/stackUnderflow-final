@@ -92,9 +92,31 @@
         <mat-card-title >{{post.data.title}}</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="postContent">{{post.data.content}}</mat-card-content>
+    <mat-card-content *ngIf="edit" class="postContent">{{post.data.content}}</mat-card-content>
+    <mat-card-content *ngIf="!edit">
+        <form>
+            <mat-form-field class="example-full-width">
+                <mat-label>Edit your post</mat-label>
+                <textarea matInput type="text">{{post.data.content}}</textarea>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
     <mat-card-content >{{post.data.displayName}}</mat-card-content>
-    <mat-card-content >{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</mat-card-content>
+    <mat-card-content ><div class="date">{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</div>
+        <br>
+        <div class="inline" style="float:left;">
+            <mat-chip-list>
+                <mat-chip *ngFor="let language of languages">
+                    {{language}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="inline" style="float:right;">
+            <button mat-icon-button (click)="editPost()"><mat-icon>create</mat-icon></button>
+            <button mat-icon-button><mat-icon>delete</mat-icon></button>
+        </div>
+    </mat-card-content>
+    <br>
     <mat-divider></mat-divider>
     
     <mat-card-actions>
@@ -109,20 +131,17 @@
             <div *ngFor="let comment of postComment">
                 {{comment}}
             </div>
+            <div class="commentSection">
             <form class="comment">
                 <mat-form-field>
                     <mat-label>Comment</mat-label>
                     <input matInput name="something" placeholder="Start typing your comment" #comment/>
                 </mat-form-field>
             </form>
-            <button mat-icon-button matTooltip="Add Comment" (click)="auth.addComment(comment.value, user.uid, user.displayName, post.data.id)"><mat-icon>add_comment</mat-icon></button>
+            <button class="commentButton" mat-icon-button matTooltip="Add Comment" (click)="auth.addComment(comment.value, user.uid, user.displayName, post.data.id)"><mat-icon>add_comment</mat-icon></button>
+            </div>
     </mat-expansion-panel>
 </mat-accordian>
-<mat-action-row>
-    <button mat-icon-button><mat-icon>share</mat-icon></button>
-    <button mat-icon-button><mat-icon>create</mat-icon></button>
-    <button mat-icon-button><mat-icon>delete</mat-icon></button>
-</mat-action-row>
     </mat-card-actions>
 </mat-card> 
  </mat-drawer-container>  

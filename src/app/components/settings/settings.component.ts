@@ -3,6 +3,21 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'firebase';
 
+export interface Language {
+  id: number;
+  name: string;
+}
+
+export interface Experience {
+  id: number;
+  name: string;
+}
+
+export interface Reason {
+  id: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -10,6 +25,7 @@ import { User } from 'firebase';
 })
 export class SettingsComponent implements OnInit {
 
+  editPreferences: boolean = false;
 
   constructor(
     public auth: AuthService,
@@ -22,65 +38,32 @@ export class SettingsComponent implements OnInit {
   }
 
 
+  lauguagesData: Language[] = [
+    { id: 0, name: 'C' },
+    { id: 1, name: 'C++' },
+    { id: 2, name: 'C#' },
+    { id: 3, name: 'Python' },
+    { id: 4, name: 'Java' }
+  ];
 
+  experienceData: Experience[] = [
+    { id: 0, name: '0 - 2 years' },
+    { id: 1, name: '2 - 4 years' },
+    { id: 2, name: '4+ years' }
+  ];
 
-  hidePass = true;
-  hidden: boolean = true;
-  hiddenProf: boolean = true;
+  reasonData: Reason[] = [
+    { id: 0, name: 'For Class' },
+    { id: 1, name: 'For Work' },
+    { id: 2, name: 'Other' }
+  ]
 
-  editSurvey(cChecked: boolean, c: string, cShrpChecked: boolean, cShrp: string, cppChecked: boolean, 
-    cpp: string, pyChecked: boolean, py: string, javaChecked: boolean, java: string, zeroSelected: boolean, 
-    zero: string, zeroToTwoSelected: boolean, zeroToTwo: string, twoToFourSelected: boolean, twoToFour: string, 
-    fourPlusSelected: boolean, fourPlus: string, forClassChecked: boolean, forClass: string, workChecked: boolean, 
-    work: string, otherChecked: boolean, other: string) {
-    // if(this.hidden === false) {
-    //   this.languages = '';
-    //   this.experience = '';
-    //   this.reason = '';
-    //   if (cChecked === true) 
-    //     this.languages += c + ", ";
-    //   if (cShrpChecked === true)
-    //     this.languages += cShrp + ", ";
-    //   if (cppChecked === true)
-    //     this.languages += cpp + ", ";
-    //   if (pyChecked === true)
-    //     this.languages += py + ", ";
-    //   if (javaChecked === true)
-    //     this.languages += java;
-      
-    //   if (zeroSelected === true)
-    //     this.experience = zero;
-    //   if (zeroToTwoSelected === true)
-    //     this.experience = zeroToTwo;
-    //   if (twoToFourSelected === true)
-    //     this.experience = twoToFour;
-    //   if (fourPlusSelected === true)
-    //     this.experience = fourPlus;
-      
-    //   if(forClassChecked === true)
-    //     this.reason += forClass + ", ";
-    //   if (workChecked === true)
-    //     this.reason += work + ", ";
-    //   if (otherChecked === true)
-    //     this.reason += other;
-    //   this.hidden = true;
-    // } else
-    //   this.hidden = false;
+  edit() {
+    if (this.editPreferences === true)
+      this.editPreferences = false;
+    else 
+      this.editPreferences = true;
   }
+  
 
-
-  edit(user: string, pass: string, picker: Date, mail: string) {
-    // if (this.hiddenProf === false) {
-      // this.user.firstName = first;
-      // this.lastName = last;
-    //   this.user.username = user;
-    //   this.user.password = pass;
-    //   this.user.email = mail;
-    //   this.hidePass = true;
-    //   this.hiddenProf = true;
-    // } else {
-    //   this.hidePass = false;
-    //   this.hiddenProf = false;
-    // }}
-  }
   }

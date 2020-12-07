@@ -28,6 +28,7 @@ export class HomePageComponent implements OnInit  {
   // userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
   postsCol: AngularFirestoreCollection<Post>;
   posts: any;
+  edit: boolean = true;
 
   title: string;
   content: string;
@@ -36,7 +37,7 @@ export class HomePageComponent implements OnInit  {
   post: Observable<Post>;
   dataset = ['All Threads', 'C Threads', 'C# Threads', 'C++ Threads', 'Python Threads', 'Java Threads'];
   
-
+  languages: string[] = ['Python', 'C', 'C++'];
   
   
 
@@ -69,6 +70,12 @@ export class HomePageComponent implements OnInit  {
 
   // }
 
+  editPost() {
+    if (this.edit === true)
+      this.edit = false;
+    else
+      this.edit = true;
+  }
 
   newPost() {
      const dialogConfig = new MatDialogConfig();
@@ -77,7 +84,7 @@ export class HomePageComponent implements OnInit  {
    }
 
    printComponent() {
-     
+
    }
 
  }

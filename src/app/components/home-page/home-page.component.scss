@@ -46,7 +46,7 @@
     display: inline-block;
   }
 
-  .mat-form-field {
+  .dialogContent {
     width: 250px;
     height: 100px;
   }
@@ -64,4 +64,31 @@
   
   .example-sidenav {
     padding: 20px;
+  }
+
+
+  .mat-expansion-panel {
+    width: 100%;
+  }
+
+  .commentSection {
+    display: flex;
+    align-items: left;
+    width: auto;
+    height: auto;
+  }
+
+  .inline {
+    display: inline-block;
+  }
+  .mat-chip-list-wrapper {
+    margin-bottom: 4px;
+  }
+
+  .date {
+    margin-bottom: 10px;
+  }
+
+  .example-full-width {
+    width: 100%;
   }
