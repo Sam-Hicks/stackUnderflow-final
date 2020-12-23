@@ -13,7 +13,7 @@ Samuel Hicks - Lead Back-end Developer
 
 ## How to run locally
 
-You will first need to download the repository.
+You will first need to download the repository. Use new-branch to download the repository.
 Run `git clone https://github.com/stackUnderflow6/stackUnderflow-final.git`
 
 Run `ng install`. This will install the node_modules folder.
