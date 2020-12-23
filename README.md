@@ -14,14 +14,10 @@ Samuel Hicks - Lead Back-end Developer
 ## How to run locally
 
 You will first need to download the repository.
+Run `git clone https://github.com/stackUnderflow6/stackUnderflow-final.git`
 
-Run 'ng install'. This will install the node_modules folder.
+Run `ng install`. This will install the node_modules folder.
+
+Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-
