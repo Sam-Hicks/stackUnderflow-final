@@ -32,28 +32,70 @@
     </mat-drawer>
 
 
-
+<mat-accordion>
 <mat-card *ngFor="let post of posts | async">
     <mat-card-header class="postTitle">
         <mat-card-title >{{post.data.title}}</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
+
+    <div *ngIf="edit == true">
     <mat-card-content class="postContent">{{post.data.content}}</mat-card-content>
     <mat-card-content >{{post.data.displayName}}</mat-card-content>
-    <mat-card-content >{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</mat-card-content>
-    <mat-card-content >Tags: {{post.data.tags}}</mat-card-content>
-    <mat-action-row>
-        <button mat-icon-button><mat-icon>share</mat-icon></button>
-        <div *ngIf='post.data.uid == user.uid || user.roles.admin == true'>
-        <button mat-icon-button matTooltip="Edit Post"><mat-icon>create</mat-icon></button>
-        <button mat-icon-button matTooltip="Delete Post" (click)="auth.deletePost(post.id)"><mat-icon>delete</mat-icon></button></div>
-    </mat-action-row>
+    <mat-card-content ><div class="date">{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</div>
+   
+        <br>
+        <div class="inline" style="float:left;">
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of post.data.tags">
+                    {{tag}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+ 
+        <div class="inline" style="float:right;" *ngIf='post.data.uid == user.uid || user.roles.admin == true'>
+        <button mat-icon-button matTooltip="Edit Post" (click)="editPost()"><mat-icon>create</mat-icon></button>
+        <button mat-icon-button matTooltip="Delete Post" (click)="auth.deletePost(post.id)"><mat-icon>delete</mat-icon></button>
+    </div>
+    </mat-card-content>
+    </div>
+
+    <div *ngIf="edit == false">
+    <mat-card-content>
+        <form>
+            <mat-form-field class="example-full-width">
+                <mat-label>Edit your post</mat-label>
+                <textarea matInput type="text" class="postContent" #content>{{post.data.content}}</textarea>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-content >{{post.data.displayName}}</mat-card-content>
+    <mat-card-content ><div class="date">{{post.data.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</div>
+        <br>
+        <div class="inline" style="float:left;">
+            <mat-chip-list>
+                <mat-chip *ngFor="let tag of post.data.tags">
+                    {{tag}}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+
+        <div class="inline" style="float:right;" *ngIf='post.data.uid == user.uid || user.roles.admin == true'>
+        <button mat-icon-button matTooltip="Save Post" (click)="editPost1(post.id, content.value)"><mat-icon>save</mat-icon></button>
+        <button mat-icon-button matTooltip="Delete Post" (click)="auth.deletePost(post.id)"><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button matTooltip="Exit Post Edit" (click)="exitPost()"><mat-icon>cancel</mat-icon></button>
+    </div>
+    </mat-card-content>
+    </div>
     
+
+    <br>
     <mat-divider></mat-divider>
     
     <mat-card-actions>
-        <mat-accordian>
-        <mat-expansion-panel hideToggle>
+        
+            
+        <mat-expansion-panel hideToggle (click)="getComments(post.id)">
             <mat-expansion-panel-header>
                 <mat-panel-title>View Comments</mat-panel-title>
                 <mat-panel-desription>
@@ -61,21 +103,25 @@
                 </mat-panel-desription>
             </mat-expansion-panel-header>
             
-            <div *ngFor="let comment of postComment | async" [commentID]="comment.id">
-                {{comment}}
+            <div *ngFor="let comment of comments | async">
+                <mat-divider></mat-divider><br>
+                <mat-card-content>{{comment.displayName}}: {{comment.content}}</mat-card-content>
+                <mat-card-content >Commented: {{comment.createdDate.toDate() | date:'MM/dd/yyyy h:mm:ss a'}}</mat-card-content>
+                
             </div>
-            <mat-action-row>
+            <div class="commentSection">
                 <form class="comment">
                     <mat-form-field>
                         <mat-label>Comment</mat-label>
                         <input matInput name="something" placeholder="Start typing your comment" #comment/>
                     </mat-form-field>
                 </form>
-                <button mat-icon-button matTooltip="Add Comment" (click)="addComment(comment.value, user.uid, user.displayName, post.data.id)"><mat-icon>add_comment</mat-icon></button>
-            </mat-action-row>
+                <button mat-icon-button class="commentButton" matTooltip="Add Comment" (click)="auth.addComment(post.id, comment.value, user.displayName)"><mat-icon>add_comment</mat-icon></button>
+            </div>
     </mat-expansion-panel>
-</mat-accordian>
+
     </mat-card-actions>
-</mat-card> 
+
+</mat-card> </mat-accordion>
  </mat-drawer-container>  
 </div>

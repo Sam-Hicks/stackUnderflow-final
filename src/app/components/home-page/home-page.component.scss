@@ -18,6 +18,7 @@
   background-color: #797a7e !important;
 }
 
+
 .postTitle {
   background-color: #d8d3cd;
   margin-bottom: 8px;
@@ -27,25 +28,83 @@
 .mat-card {
     background-color: #d8d3cd;
     margin: 15px;
-  }
+}
 
-  .postContent {
-    font-size: medium;
-  }
+.postContent {
+  font-size: medium;
+}
 
-  .mat-dialog-container {
-    width: 250px;
-    height: 250px;
-    display: flex;
-  }
+.mat-dialog-container {
+  // width: 250px;
+  height: 250px;
+  display: flex;
+}
 
-  .mat-dialog-content {
-      width: 250px;
-      height: 250px;
-      margin-top: 100px;
-  }
+.mat-dialog-content {
+    width: 400px;
+    height: 300px;
+    margin-top: 10px;
+}
 
-  .mat-form-field {
-    width: 250px;
-    height: 100px;
-  }
+.mat-dialog-textarea{
+  resize: both;
+  width: 300px;
+  
+}
+
+.dialogContent {
+  width: 400px;
+  // height: 100px;
+}
+
+.mat-raised-button {
+  margin-bottom: 15px;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+
+.mat-expansion-panel {
+  width: 100%;
+}
+
+.commentSection {
+  display: flex;
+  float: right;
+  align-items: right;
+  width: auto;
+  height: auto;
+}
+
+.inline {
+  display: inline-block;
+  // padding-top: 2px;
+  // padding-bottom: 10px;
+  margin-top: -6px;
+  // margin-bottom: 5px;
+}
+.mat-chip-list-wrapper {
+  margin-bottom: 4px;
+}
+
+.date {
+  margin-bottom: 2px;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.divider{
+  margin-top: 14px;
+  
+}

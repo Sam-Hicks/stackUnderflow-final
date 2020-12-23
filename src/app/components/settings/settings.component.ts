@@ -1,13 +1,22 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { User } from 'firebase';
 
 export interface Language {
   id: number;
   name: string;
 }
 
+export interface Experience {
+  id: number;
+  name: string;
+}
+
+export interface Reason {
+  id: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-settings',
@@ -15,18 +24,14 @@ export interface Language {
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  editPreferences: boolean = false;
 
+  selectedExperience: string;
+  experiences: string[] = ['0 years', '0 - 2 years', '2 - 4 years', '4+ years'];
+  experienceControl = new FormControl('', [Validators.required]);
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public ngZone: NgZone
-  ) { }
-
-  ngOnInit(): void {
-    
-  }
-
+  form: FormGroup;
+  form1: FormGroup;
   lauguagesData: Language[] = [
     { id: 0, name: 'C' },
     { id: 1, name: 'C++' },
@@ -35,64 +40,57 @@ export class SettingsComponent implements OnInit {
     { id: 4, name: 'Java' }
   ];
 
+  reasonsData: Reason[] = [
+    { id: 0, name: 'For class' },
+    { id: 1, name: 'For work' },
+    { id: 2, name: 'Other' }
+  ];
 
-  hidePass = true;
-  hidden: boolean = true;
-  hiddenProf: boolean = true;
+  constructor(
+    public auth: AuthService,
+    public router: Router,
+    public ngZone: NgZone,
+    private fb: FormBuilder
+  ) { }
 
-  editSurvey(cChecked: boolean, c: string, cShrpChecked: boolean, cShrp: string, cppChecked: boolean, 
-    cpp: string, pyChecked: boolean, py: string, javaChecked: boolean, java: string, zeroSelected: boolean, 
-    zero: string, zeroToTwoSelected: boolean, zeroToTwo: string, twoToFourSelected: boolean, twoToFour: string, 
-    fourPlusSelected: boolean, fourPlus: string, forClassChecked: boolean, forClass: string, workChecked: boolean, 
-    work: string, otherChecked: boolean, other: string) {
-    // if(this.hidden === false) {
-    //   this.languages = '';
-    //   this.experience = '';
-    //   this.reason = '';
-    //   if (cChecked === true) 
-    //     this.languages += c + ", ";
-    //   if (cShrpChecked === true)
-    //     this.languages += cShrp + ", ";
-    //   if (cppChecked === true)
-    //     this.languages += cpp + ", ";
-    //   if (pyChecked === true)
-    //     this.languages += py + ", ";
-    //   if (javaChecked === true)
-    //     this.languages += java;
-      
-    //   if (zeroSelected === true)
-    //     this.experience = zero;
-    //   if (zeroToTwoSelected === true)
-    //     this.experience = zeroToTwo;
-    //   if (twoToFourSelected === true)
-    //     this.experience = twoToFour;
-    //   if (fourPlusSelected === true)
-    //     this.experience = fourPlus;
-      
-    //   if(forClassChecked === true)
-    //     this.reason += forClass + ", ";
-    //   if (workChecked === true)
-    //     this.reason += work + ", ";
-    //   if (otherChecked === true)
-    //     this.reason += other;
-    //   this.hidden = true;
-    // } else
-    //   this.hidden = false;
+  onChangeEventFunc(name: string, isChecked: boolean) {
+    const languages = (this.form.controls.name as FormArray);
+
+    if (isChecked['checked']) {
+      languages.push(new FormControl(name));
+    } else {
+      const index = languages.controls.findIndex(x => x.value === name);
+      languages.removeAt(index);
+    }
+  }
+
+  onChangeEventFunc1(name: string, isChecked: boolean) {
+    const reasons = (this.form1.controls.name as FormArray);
+
+    if (isChecked['checked']) {
+      reasons.push(new FormControl(name));
+    } else {
+      const index = reasons.controls.findIndex(x => x.value === name);
+      reasons.removeAt(index);
+    }
   }
 
 
-  edit(user: string, pass: string, picker: Date, mail: string) {
-    // if (this.hiddenProf === false) {
-      // this.user.firstName = first;
-      // this.lastName = last;
-    //   this.user.username = user;
-    //   this.user.password = pass;
-    //   this.user.email = mail;
-    //   this.hidePass = true;
-    //   this.hiddenProf = true;
-    // } else {
-    //   this.hidePass = false;
-    //   this.hiddenProf = false;
-    // }}
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      name: this.fb.array([])
+    });
+
+    this.form1 = this.fb.group({
+      name: this.fb.array([])
+    });
   }
+
+  
+  edit() {
+    if (this.editPreferences === true)
+      this.editPreferences = false;
+    else 
+      this.editPreferences = true;
   }
+}

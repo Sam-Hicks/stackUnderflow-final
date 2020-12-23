@@ -1,17 +1,17 @@
 <div *ngIf="auth.user$ | async as user">
     <h2 mat-dialog-title>New Post</h2>
     <div mat-dialog-content>
-        <mat-form-field>
+        <mat-form-field class="dialogContent">
             <mat-label>Title</mat-label>
             <input matInput placeholder="Title your post"#title/>
         </mat-form-field>
         <br>
-        <mat-form-field>
+        <mat-form-field class="dialogContent">
             <mat-label>Start typing your post content</mat-label>
             <textarea matInput #content></textarea>
         </mat-form-field>
         <br>
-        <mat-form-field>
+        <mat-form-field class="dialogContent">
             <mat-chip-list #chipList aria-label="Language Selection">
                 <mat-chip *ngFor="let language of languages"
                 [selectable]="selectable"

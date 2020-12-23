@@ -13,7 +13,6 @@ export interface User {
 }
 
 export interface Roles { 
-   guest?: boolean;
    editor?: boolean;
    admin?: boolean;
 }

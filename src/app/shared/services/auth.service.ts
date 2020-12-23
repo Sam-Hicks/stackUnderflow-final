@@ -114,12 +114,8 @@ export class AuthService {
       email: user.email,
       emailVerified: user.emailVerified,
       roles: {
-        guest: false,
-        editor: true,
-        admin: false
-        
+        editor: true
       }
- 
     }
   return userRef.set(userData, {merge: true})
   }
@@ -137,55 +133,37 @@ export class AuthService {
     return userRef.update({displayName, DoB, age, experience, languages, reasons}); 
   }
 
-  //Profile Page saving
+  //Profile Page Saving
   SettingsProfileSave(uid, displayName, DoB, age, email){
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
     return userRef.update({displayName, DoB, age, email}); 
   }
 
-  SettingsPrefSave(uid, languages, experience, reason){
+  //Preferences Page Saing
+  SettingsPrefSave(uid, languages, experience, reasons){
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
-    return userRef.update({languages, experience, reason}); 
+    return userRef.update({languages, experience, reasons}); 
   }
 
-  //Post creation
+  //Create a Post
   addPost(title, content, tags, uid, displayName) {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    this.afs.collection('posts/').add({'title': title, 'content': content, 'tags': tags, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
+    this.afs.collection('posts').add({'title': title, 'content': content, 'tags': tags, 'uid': uid, 'displayName': displayName, 'createdDate': timestamp});
   }
 
+  //Edit a Post
+  // editPost(postId, content) {
+  //   this.afs.doc('posts/'+postId).update({'content': content});
+  // }
+
+  //Delete a Post
   deletePost(postId) {
     this.afs.doc('posts/'+postId).delete();
   }
 
-
-
-  ///// Role-based Authorization //////
-
-  // canRead(user: User): boolean {
-  //   const allowed = ['admin', 'editor', 'guest']
-  //   return this.checkAuthorization(user, allowed)
-  // }
-
-  // canEdit(user: User): boolean {
-  //   const allowed = ['admin', 'editor']
-  //   return this.checkAuthorization(user, allowed)
-  // }
-
-  // canDelete(user: User): boolean {
-  //   const allowed = ['admin']
-  //   return this.checkAuthorization(user, allowed)
-  // }
-
-  // // determines if user has matching role
-  // private checkAuthorization(user: User, allowedRoles: string[]): boolean {
-  //   if (!user) return false
-  //   for (const role of allowedRoles) {
-  //     if ( user.roles[role] ) {
-  //       return true
-  //     }
-  //   }
-  //   return false
-  // }
-  
+  //Add a Comment to a Post
+  addComment(postId, content, displayName){
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    this.afs.collection('posts').doc(postId).collection('comments').add({'content': content, 'displayName': displayName, 'createdDate': timestamp});
+  }
 }

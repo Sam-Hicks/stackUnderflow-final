@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, NgZone, Input, ViewChild, ElementRef } from 
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AuthService } from "../../shared/services/auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Comments } from 'src/app/shared/services/comment';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, QueryDocumentSnapshot } from '@angular/fire/firestore';
+
 import { Observable, Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { User } from 'src/app/shared/services/user';
@@ -16,7 +16,6 @@ import { FormControl } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 
-
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
@@ -24,8 +23,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
   providers: [DatePipe]
 })
 export class HomePageComponent implements OnInit  {
-  user$: Observable<User>;
-  // userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+
   postsCol: AngularFirestoreCollection<Post>;
   posts: any;
 
@@ -35,7 +33,12 @@ export class HomePageComponent implements OnInit  {
   postsDoc: AngularFirestoreDocument<Post>;
   post: Observable<Post>;
 
+  commentsCol: AngularFirestoreCollection<Comment>;
+  comments: any;
   
+  edit: boolean = true;
+
+  languages: string[] = ['Python', 'C', 'C++'];
   dataset = ['All Threads', 'C Threads', 'C# Threads', 'C++ Threads', 'Python Threads', 'Java Threads'];
 
   constructor(
@@ -51,19 +54,34 @@ export class HomePageComponent implements OnInit  {
 
   ngOnInit() {
     this.postsCol = this.afs.collection('posts', ref => ref.orderBy("createdDate", "desc"));
-    // this.posts = this.postsCol.valueChanges();
     this.posts = this.postsCol.snapshotChanges()
     .pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
+
   }
 
- 
+  exitPost(){
+    this.edit = true;
+  }
+
+  editPost() {
+    this.edit = false;
+  }
+
+  editPost1(postId, content) {
+    this.afs.doc('posts/'+postId).update({'content': content});
+    this.edit = true;
+}  
+
+  getComments(postId){
+    this.commentsCol = this.afs.collection('posts/'+postId+'/comments', ref => ref.orderBy("createdDate", "desc"));
+    this.comments = this.commentsCol.valueChanges();
+  }
 
   getAllPosts(){
     this.postsCol = this.afs.collection('posts', ref => ref.orderBy("createdDate", "desc"));
@@ -72,7 +90,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -85,7 +102,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -98,7 +114,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -110,7 +125,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -123,7 +137,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -136,7 +149,6 @@ export class HomePageComponent implements OnInit  {
       return actions.map(a => {
         const data = a.payload.doc.data() as Post;
         const id = a.payload.doc.id;
-        // this.addPostId(id);
         return { id, data };
       })
     }))
@@ -147,11 +159,8 @@ export class HomePageComponent implements OnInit  {
      dialogConfig.autoFocus = true;
      this.dialog.open(DialogBox, dialogConfig);
   }
-   
+}
 
-
-
- }
 
  @Component({
   selector: 'app-dialog-box',
