@@ -1,28 +1,23 @@
-# Comment/Post Website
+# Post/Comment-Based Website
+This website was created by a team of Computer Science students at FAU for a project in CEN 4010: Principles of Software Engineering. The purpose of this project was to create a website for fau students looking for help with programming concepts. The structure of this project takes a basic post and comment approach. A user can login with either an email and password or a google account. Each account has its own settings and preferences that can be edited in real time. The base of the website is the home screen where all the posts and comments are displayed. A user is able to type out their own post and comment on others while also being able to sort the posts by programming languages. The programming languages we support for help include C, C++, C#, Python and Java.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+This project was created with the Angular Framwork for the front-end and Google Firebase Firestore for the back-end.
 
-## Development server
+## Contibuters:
+
+Callie Stephano - Group Manager
+
+Jessica Minton - Lead Front-end Developer
+
+Samuel Hicks - Lead Back-end Developer
+
+## How to run locally
+
+You will first need to download the repository. Use new-branch to download the repository.
+Run `git clone https://github.com/stackUnderflow6/stackUnderflow-final.git`
+
+Run `ng install`. This will install the node_modules folder.
+
+Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# stackUnderflow-final
